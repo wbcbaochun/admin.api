@@ -1,7 +1,6 @@
 /node_modules
 /public/data/images/temp
 /npm-debug.log
-/logs/*
 /db/development.sqlite
 /db
 /public
