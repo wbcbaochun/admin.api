@@ -1,0 +1,28 @@
+{
+    "appenders": [
+        { "type": "console" },
+        {
+            "type": "dateFile",
+            "filename": "logs/access.log",
+            "pattern": "-yyyy-MM-dd",
+            "category": "http"
+        }, {
+            "type": "dateFile",
+            "filename": "logs/app.log",
+            "pattern": "-yyyy-MM-dd"
+        }, {
+            "type": "logLevelFilter",
+            "level": "ERROR",
+            "appender": {
+                "type": "dateFile",
+                "filename": "logs/error.log",
+                "pattern": "-yyyy-MM-dd",
+                "alwaysIncludePattern": false
+            }
+        }
+    ],
+    "replaceConsole": true,
+    "levels": {
+        "[all]": "DEBUG"
+    }    
+}

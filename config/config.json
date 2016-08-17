@@ -1,0 +1,25 @@
+{
+  "development": {
+        "username": "root",
+        "password": "",
+        "database": "admin_blank",
+        "host": "localhost",
+        "dialect": "mysql",
+        "timezone": "+08:00",
+        "syncForce": true,
+        "serverPort": 9005,
+        "tokenExpiresIn": "1 years",
+        "passCheckAuth": true
+  },
+  "test": {
+        "username": "root",
+        "password": "",
+        "database": "admin_blank",
+        "host": "localhost",
+        "dialect": "mysql",
+        "timezone": "+08:00",
+        "syncForce": false,
+        "serverPort": 9005,
+        "tokenExpiresIn": "1 years"
+  }
+}

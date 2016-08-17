@@ -1,0 +1,47 @@
+{
+  "name": "admin.api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "start": "nodemon --debug app.js",
+    "test": "set NODE_ENV=test&& nodemon app.js"
+  },
+  "dependencies": {
+    "app-module-path": "^1.1.0",
+    "body-parser": "^1.15.1",
+    "bufferhelper": "^0.2.1",
+    "bulk-require": "^1.0.0",
+    "continuation-local-storage": "^3.1.7",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.7.1",
+    "express": "^4.13.4",
+    "express-csv": "^0.6.0",
+    "express-fileupload": "0.0.5",
+    "express-validator": "^2.20.5",
+    "formidable": "^1.0.14",
+    "jsonwebtoken": "^7.0.1",
+    "lodash": "^4.13.1",
+    "log4js": "^0.6.36",
+    "mkdirp": "^0.5.1",
+    "moment": "^2.13.0",
+    "multer": "^1.1.0",
+    "mysql": "^2.11.0",
+    "nodemon": "^1.9.2",
+    "sequelize": "^3.23.3",
+    "sharp": "^0.15.1",
+    "tedious": "^1.14.0",
+    "wechat-oauth": "^1.1.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.1",
+    "gulp-nodemon": "^2.1.0",
+    "gulp-util": "^3.0.7",
+    "gulp-watch": "^4.3.8",
+    "jshint": "^2.9.2",
+    "jshint-stylish": "^2.2.0"
+  }
+}
