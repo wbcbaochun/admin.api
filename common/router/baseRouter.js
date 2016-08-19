@@ -3,6 +3,9 @@
 const express = require('express');
 const logger = require('base/logger/loggerHelper').getLogger(__filename);
 const models = require('models');
+const isPromise = require('is-promise');
+/* global -Promise */
+const Promise = require('bluebird');
 
 function _getTrans(url, optTrans) {
 	let trans = false;
@@ -18,12 +21,23 @@ function _getTrans(url, optTrans) {
 	return trans;
 }
 
+function _createPromise(result) {
+	if (isPromise(result)) {
+		return result;
+	} else {
+		return new Promise(function(resolve) {
+			resolve(result);
+		});
+	}
+}
+
 /**
  * 路由基类
  * @param {String} url  路由URL
  * @param {Function} ctrl 路由的Function
  * @param {Object} [opts] {
- *                      	boolean [trans] : 是否打开事务 default false,
+ *                      	可选 boolean [trans] 	: 是否打开事务 default false,
+ *                      	可选 String  [method]	: 路由的http method, default post
  *                        }
  */
 function BaseRouter(url, ctrl, opts = {}) {
@@ -37,11 +51,11 @@ function BaseRouter(url, ctrl, opts = {}) {
 		if (trans) {
 			// 打开事务
 			pCtrl = models.sequelize.transaction(function() {
-				return ctrl(req, res, next);
+				return _createPromise(ctrl(req, res, next));
 			});
 		} else {
 			// 不打开事务
-			pCtrl = ctrl(req, res, next);
+			pCtrl = _createPromise(ctrl(req, res, next));
 		}
 		pCtrl.then(result => res.json(result))				
 			 .catch(next)
@@ -50,7 +64,9 @@ function BaseRouter(url, ctrl, opts = {}) {
 	}
 	
 	let router = express.Router();
-	router.post(url, _baseCtrl);
+
+	let method = opts.method || 'post';
+	router[method](url, _baseCtrl);
 
 	return router;
 }
