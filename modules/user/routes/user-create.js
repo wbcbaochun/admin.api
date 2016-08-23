@@ -16,7 +16,7 @@ const VALIDATE_SCHEMA = {
     'password': {
         notEmpty: true,
         isLength: {
-            options: [{ min: 6 }]
+            options: [{ min: 4 }]
         }
     },
     'mail': {

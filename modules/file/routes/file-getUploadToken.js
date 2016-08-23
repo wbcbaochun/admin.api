@@ -18,7 +18,7 @@ function uptoken(bucket) {
     return putPolicy.token();
 }
 
-function controller(req) {
+function controller() {
     let bucket = configHelper.getConfig('qiniu.bucket');
 
     let token = uptoken(bucket);

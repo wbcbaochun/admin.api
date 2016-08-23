@@ -14,6 +14,9 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.STRING,
 			unique: true
 		},
+		photo: {
+			type: DataTypes.STRING
+		},
 		createUserId: {
 			type: DataTypes.BIGINT(11),
 			allowNull: false,
