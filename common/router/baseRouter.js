@@ -3,7 +3,7 @@
 const express = require('express');
 const logger = require('base/logger/loggerHelper').getLogger(__filename);
 const models = require('models');
-const isPromise = require('is-promise');
+// const isPromise = require('is-promise');
 /* global -Promise */
 const Promise = require('bluebird');
 
@@ -22,13 +22,9 @@ function _getTrans(url, optTrans) {
 }
 
 function _createPromise(result) {
-	if (isPromise(result)) {
-		return result;
-	} else {
-		return new Promise(function(resolve) {
-			resolve(result);
-		});
-	}
+	return new Promise(function(resolve) {
+		resolve(result);
+	});
 }
 
 /**
@@ -56,6 +52,7 @@ function BaseRouter(url, ctrl, opts = {}) {
 		} else {
 			// 不打开事务
 			pCtrl = _createPromise(ctrl(req, res, next));
+			
 		}
 		pCtrl.then(result => res.json(result))				
 			 .catch(next)

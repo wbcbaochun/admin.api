@@ -3,6 +3,7 @@
 /**
  * API：用户login
  */
+const co = require('co');
 const baseRouter = require('common/router/baseRouter');
 const models = require('models');
 const api = require('common/api/api');
@@ -16,7 +17,7 @@ const VALIDATE_SCHEMA = {
     },
     'password': {
         notEmpty: true
-    }       
+    }
 };
 
 function controller(req, res) {
@@ -30,19 +31,33 @@ function controller(req, res) {
     let name = req.body.name;
     let password = encodeHelper.md5(req.body.password);
 
-    // 执行Login
-    return models.user.findOne({
-        attributes: { exclude: ['password'] },
-        where: {
-            mail: name,
-            password: password
-        }
-    }).then(function(user) {
+    //  执行Login
+    return co(function*() {
+        // 取得用户
+        let user = yield models.user.findOne({
+            attributes: { exclude: ['password'] },
+            where: {
+                mail: name,
+                password: password
+            }
+        });
         if (!user) {
             return api.failed('error.session.login');
         }
+        
+        // 取得权限列表
+        let permissions = yield models.permission.findAll({
+            attributes: ['name'],
+            where: {
+                roleId: user.roleId
+            }
+        });
+
+        // 设置结果
+        let result = user.dataValues;
+        result.permissions = permissions.map(item => item.name);
         tokenHelper.createToken(user.dataValues, res);
-        return api.succeed('success.session.login', user);
+        return api.succeed('success.session.login', result);
     });
 }
 
