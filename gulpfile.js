@@ -1,13 +1,19 @@
-var gulp = require('gulp'),
+let gulp = require('gulp'),
     watch = require('gulp-watch'),
     gutil = require('gulp-util'),
     jshint = require('gulp-jshint'),
     nodemon = require('gulp-nodemon'),
-    stylish = require('jshint-stylish');
+    stylish = require('jshint-stylish'),
+    fs = require('fs');
 
-var paths = {
+let paths = {
     script: ['./**/*.js', '!node_modules/**/*.js', '!gulpfile.js']
 };
+
+let logDir = './logs';
+if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir);
+}
 
 // lint js sources based on .jshintrc ruleset
 gulp.task('jsHint', function() {
