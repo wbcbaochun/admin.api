@@ -10,6 +10,8 @@ let paths = {
     script: ['./**/*.js', '!node_modules/**/*.js', '!gulpfile.js']
 };
 
+let production = (process.env.NODE_ENV === 'production');
+
 let logDir = './logs';
 if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir);
@@ -36,13 +38,26 @@ gulp.task('server', function() {
     nodemon({
             script: 'app.js',
             ext: 'js',
-            ignore: ['gulpfile.js']
+            ignore: ['gulpfile.js'],
+            exec: 'node --debug'
         })
         .on('restart', function() {
             console.log('server restarted!')
         });
 });
 
+function buildAll() {
+    gulp.start(['jsHint', 'server', 'watch']);
+}
 
-// 开发环境
-gulp.task('default', ['jsHint', 'server', 'watch']);
+// 打包 -- 开发环境
+gulp.task('default', function(cb) {
+    process.env.NODE_ENV = 'development';
+    buildAll();
+});
+
+// 打包 -- 测试环境
+gulp.task('test', function(cb) {
+    process.env.NODE_ENV = 'test';
+    buildAll();
+});

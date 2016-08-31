@@ -7,6 +7,8 @@ var constants = {
 	TOKEN_ERROR_CODE: 99,
 	// 用户权限验证失败CODE
 	NO_USER_ERROR_CODE: 98,
+	// permission验证失败CODE
+	PERMISSION_ERROR_CODE: 97,	
 	// api调用成功
 	API_RETURN_SUCCESS: 0,
 	// api调用失败

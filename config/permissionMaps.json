@@ -1,0 +1,4 @@
+{
+	"user\/(create|delete|update)": "user.edit",
+	"user\/.*": "user.view"
+}

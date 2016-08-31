@@ -56,7 +56,7 @@ function controller(req, res) {
         // 设置结果
         let result = user.dataValues;
         result.permissions = permissions.map(item => item.name);
-        tokenHelper.createToken(user.dataValues, res);
+        tokenHelper.createToken(result, res);
         return api.succeed('success.session.login', result);
     });
 }

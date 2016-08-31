@@ -1,24 +1,52 @@
 'use strict';
 
-var api = require('common/api/api');
-var constants = require('common/constant/constants');
-var jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
-var configHelper = require('base/config/configHelper');
-var tokenHelper = require('base/security/jwt/tokenHelper');
-var _ = require('lodash');
+const api = require('common/api/api');
+const constants = require('common/constant/constants');
+const jwt = require('jsonwebtoken'); // used to create, sign, and verify tokens
+const configHelper = require('base/config/configHelper');
+const tokenHelper = require('base/security/jwt/tokenHelper');
+const _ = require('lodash');
+const permessionMaps = require('config/permissionMaps');
 
 const AUTH_KEY_ANNO = 'anon';	
 
 function _setTokenError(res) {
-	var result = api.failed({
+	let result = api.failed({
 		errorcd: constants.TOKEN_ERROR_CODE,
-		message: 'token验证失败，您还未登录或登录超时'
+		message: 'error.authCheck.token'
+	});
+	return res.status(403).send(result);
+}
+
+function _setPermissionError(res) {
+	let result = api.failed({
+		errorcd: constants.PERMISSION_ERROR_CODE,
+		message: 'error.authCheck.permission'
 	});
 	return res.status(403).send(result);
 }
 
 function _isPassCheck() {
 	return configHelper.getConfig('passCheckAuth');
+}
+
+/**
+ * 验证用户的action权限
+ * @param  {String} url         [当前url]
+ * @param  {Object} currentUser [当前用户]
+ * @return {boolean}             [是否有权限]
+ */
+function _checkPermission(url, currentUser) {
+	let result = false;
+	_.some(permessionMaps, (value, key) => {
+		if (url.match(key)) {
+			if (currentUser.permissions.indexOf(value) >= 0) {
+				result = true;
+			}
+			return true;
+		}
+	});
+	return result;
 }
 
 function AuthVerify(req, res, next) {
@@ -29,16 +57,15 @@ function AuthVerify(req, res, next) {
 	}
 
 	// 检查当前url是否需要认证
-	var anonList = configHelper.getAuthConfig(AUTH_KEY_ANNO);
-	var url = _.replace(req.url, '/api', '');
+	let anonList = configHelper.getAuthConfig(AUTH_KEY_ANNO);
+	let url = _.replace(req.url, '/api', '');
 	if(_.indexOf(anonList, url) >= 0) {
 		next();
 		return;
 	}
 
 	// 取得token
-	var token = req.headers[constants.USER_TOKEN_KEY];
-
+	let token = req.headers[constants.USER_TOKEN_KEY];
 	// decode token
 	if(token) {
 		// verifies secret and checks exp
@@ -46,6 +73,12 @@ function AuthVerify(req, res, next) {
 			if(err) {
 				return _setTokenError(res);
 			} else {
+				// permission check
+				let hasPermission =  _checkPermission(url, decoded);
+				if (!hasPermission) {
+					return _setPermissionError(res);
+				}
+
 				// if everything is good, save to request for use in other routes
 				req.currentUser = decoded;
 				tokenHelper.createToken(decoded, res);

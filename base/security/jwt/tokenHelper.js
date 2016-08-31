@@ -48,6 +48,7 @@ class TokenHelper {
     _createToken(tokenValues, res, jwtOptions = {}) {
         let margedJwtOpts = Object.assign({}, this.jwsOptions, jwtOptions);
         let tokenValuesNoExp = _.omit(tokenValues, ['iat', 'exp']);
+        console.log(tokenValuesNoExp);
         var newtoken = jwt.sign(tokenValuesNoExp, this.jwsKey, margedJwtOpts);
         res.setHeader(this.tokenKey, newtoken);
         return newtoken;
