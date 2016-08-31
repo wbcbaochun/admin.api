@@ -12,6 +12,5 @@
 	gulp
 
 1. 调试模式
-	npm start
 	在另一个窗口下 node-debug app.js
 
