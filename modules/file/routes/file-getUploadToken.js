@@ -14,7 +14,7 @@ qiniu.conf.SECRET_KEY = configHelper.getConfig('qiniu.secretKey');
 
 //构建上传策略函数
 function uptoken(bucket) {
-    var putPolicy = new qiniu.rs.PutPolicy(bucket);
+    let putPolicy = new qiniu.rs.PutPolicy(bucket);
     return putPolicy.token();
 }
 

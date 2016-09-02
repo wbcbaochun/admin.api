@@ -1,8 +1,8 @@
 'use strict';
 
-var codelist = require('./codelist');
+const codelist = require('./codelist');
 
-var constants = {
+const constants = {
 	// token验证失败CODE
 	TOKEN_ERROR_CODE: 99,
 	// 用户权限验证失败CODE

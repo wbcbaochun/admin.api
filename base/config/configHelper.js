@@ -1,9 +1,9 @@
 'use strict';
 
-var env       = process.env.NODE_ENV || 'development';
-var config    = require('config/config.json')[env];
-var authConfigs = require('config/auth');
-var sysConfigs = require('config/sysconfig');
+let env       = process.env.NODE_ENV || 'development';
+let config    = require('config/config.json')[env];
+let authConfigs = require('config/auth');
+let sysConfigs = require('config/sysconfig');
 
 module.exports = {
 	// 环境配置

@@ -12,6 +12,7 @@ let paths = {
 
 let production = (process.env.NODE_ENV === 'production');
 
+// create logs folder if not exist
 let logDir = './logs';
 if (!fs.existsSync(logDir)) {
     fs.mkdirSync(logDir);

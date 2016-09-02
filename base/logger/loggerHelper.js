@@ -1,12 +1,12 @@
 'use strict';
 const log4js = require('log4js');
  	
-var getLogger = function(filePath) {
-    var filePathForLog = filePath.substring(global.__basedir.length + 1);
+let getLogger = function(filePath) {
+    let filePathForLog = filePath.substring(global.__basedir.length + 1);
     return log4js.getLogger(filePathForLog);
 };
 
-var loggerHelper = {
+let loggerHelper = {
     getLogger
 };
 

@@ -33,7 +33,7 @@ function preparePageQuery(searchCondition) {
     return _editQueryOpts(queryOpts, searchCondition);
 }
 
-var userHelper = {
+let userHelper = {
 	prepareQuery,
 	preparePageQuery
 };

@@ -1,39 +1,39 @@
 'use strict';
 
 require('app-module-path').addPath(__dirname);
-var express = require('express');
-var app = express();
+const express = require('express');
+const app = express();
 
 // express middleware
-var cors = require('cors');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var expressValidator = require('express-validator');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const expressValidator = require('express-validator');
 
 // orther
-var log4js = require('log4js');
-var path = require('path');
+const log4js = require('log4js');
+const path = require('path');
 
 // set base dir
 global.__basedir = path.resolve(__dirname);
 
 // helper
-var routeHelper = require('base/route/routeHelper');
-var logHelper = require('base/logger/loggerHelper');
-var tokenHelper = require('base/security/jwt/tokenHelper');
-var messageHelper = require('base/message/messageHelper');
+const routeHelper = require('base/route/routeHelper');
+const logHelper = require('base/logger/loggerHelper');
+const tokenHelper = require('base/security/jwt/tokenHelper');
+const messageHelper = require('base/message/messageHelper');
 
 // config and constants
-var constants = require('common/constant/constants');
-var configHelper = require('base/config/configHelper');
+const constants = require('common/constant/constants');
+const configHelper = require('base/config/configHelper');
 
 // model and seeds
-var models = require('models');
-var seeds = require('seeds/seeds')(models);
+const models = require('models');
+const seeds = require('seeds/seeds')(models);
 
-var logger = logHelper.getLogger(__filename);
+const logger = logHelper.getLogger(__filename);
 
-var appModules = require('modules');
+const appModules = require('modules');
 // setup helper
 tokenHelper.setup(constants.JWS_TOKEN_KEY, {
 	expiresIn: configHelper.getConfig('tokenExpiresIn')
@@ -62,9 +62,9 @@ app.use(log4js.connectLogger(log4js.getLogger('http'), {
 }));
 
 // customize filter
-var authVerify = require('common/filters/authVerify');
-var domainStorage = require('common/filters/domainStorage');
-var errorHandle = require('common/filters/errorHandle');
+const authVerify = require('common/filters/authVerify');
+const domainStorage = require('common/filters/domainStorage');
+const errorHandle = require('common/filters/errorHandle');
 
 // use domain stroage
 app.use(domainStorage);
@@ -79,7 +79,7 @@ routeHelper.loadRoutes(app, appModules);
 app.use(errorHandle);
 
 // init db
-var sequelizeHelper = require('common/database/sequelize/sequelizeHelper')(models.sequelize);
+const sequelizeHelper = require('common/database/sequelize/sequelizeHelper')(models.sequelize);
 // add hook
 sequelizeHelper.addHooks();
 
@@ -92,7 +92,7 @@ models.sequelize.sync({
 });
 
 // open listen
-var serverPort = configHelper.getConfig('serverPort');
+const serverPort = configHelper.getConfig('serverPort');
 app.listen(serverPort, function() {
 	logger.info(`app listening on port ${serverPort}, env = %s`, process.env.NODE_ENV || 'development');
 });

@@ -1,9 +1,9 @@
 'use strict';
-var logger = require('base/logger/loggerHelper').getLogger(__filename);
-var encodeHeper = require('base/encode/encodeHelper');
+let logger = require('base/logger/loggerHelper').getLogger(__filename);
+let encodeHeper = require('base/encode/encodeHelper');
 
-var seeds = function(db) {
-    var seedAll = function() {
+let seeds = function(db) {
+    let seedAll = function() {
         _seedRole();
         _seedPermission();
         _seedUser();
@@ -11,7 +11,7 @@ var seeds = function(db) {
         logger.info('Database seed data insert successed.');
     };
 
-    var _seedRole = function() {
+    let _seedRole = function() {
         let roles = [{
             id: 1,
             name: 'admin'
@@ -22,7 +22,7 @@ var seeds = function(db) {
         db.role.bulkCreate(roles);
     };
 
-    var _seedPermission = function() {
+    let _seedPermission = function() {
         let permissions = [{
             name: 'user.view',
             roleId: 1
@@ -37,7 +37,7 @@ var seeds = function(db) {
         return db.permission.bulkCreate(permissions);       
     };
 
-    var _seedUser = function() {
+    let _seedUser = function() {
         let users = [];
         for (let i = 0; i < 20; i++) {
             users.push({

@@ -9,7 +9,7 @@
         "syncForce": true,
         "serverPort": 9005,
         "tokenExpiresIn": "1 years",
-        "passCheckAuth": false,
+        "passCheckAuth": true,
         "qiniu.accessKey": "-kXnYoic8dGatWx3PGQg_yapGXkuIBl03J9e8_Kw",
         "qiniu.secretKey": "P4gu4lbyPuZvmlAt_oF3MwCp91Pa2Ng5Oy9PtLcr",
         "qiniu.bucket": "wbc1"

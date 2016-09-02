@@ -1,6 +1,6 @@
 'use strict';
 
-var codelist = {
+const codelist = {
     onoff: {
         on: '1',
         off: '0'

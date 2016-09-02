@@ -1,6 +1,6 @@
 'use strict';
 
-var baseMessages = {
+const baseMessages = {
 	// -- validation errors --
 	'error.isEmail': '邮箱地址不正确',
 	'error.isUrl': 'URL地址不正确',

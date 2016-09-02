@@ -42,9 +42,9 @@ function extendSchema(schema) {
  * @return {Object}        [错误内容，参考express-validator的errors]
  */
 function validate(schema, req) {
-	var schemaExt = extendSchema(schema);
+	let schemaExt = extendSchema(schema);
 	req.checkBody(schemaExt);
-	var errors = req.validationErrors();
+	let errors = req.validationErrors();
     if (errors) {
         return Promise.resolve({
             status: 1,
@@ -56,7 +56,7 @@ function validate(schema, req) {
     }	
 }
 
-var validationHelper = {
+let validationHelper = {
 	extendSchema,
 	validate
 };

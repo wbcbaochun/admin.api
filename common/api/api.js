@@ -18,7 +18,7 @@ function _processResult(resultBody) {
  *         {[object]}         args[1]  result body
  * @return {object}         成功消息体
  */
-var succeed = function(...args) {
+let succeed = function(...args) {
     let resultBody = {};
     if (args.length === 1) {
         if (typeof(args[0]) === 'object') {
@@ -43,7 +43,7 @@ var succeed = function(...args) {
  * @param  {string or object} args[0]  message 或者 result body
  * @return {object}         失败消息体
  */
-var failed = function(...args) {
+let failed = function(...args) {
     let resultBody = {};
     if (args.length === 1) {
         if (typeof(args[0]) === 'object') {
@@ -60,7 +60,7 @@ var failed = function(...args) {
     }, resultBody);
 };
 
-var api = {
+let api = {
     succeed,
     failed
 };
