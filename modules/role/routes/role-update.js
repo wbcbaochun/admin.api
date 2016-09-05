@@ -7,7 +7,6 @@ const baseRouter = require('common/router/baseRouter');
 const models = require('models');
 const api = require('common/api/api');
 const validationHelper = require('base/validation/validationHelper');
-const _ = require('lodash');
 const co = require('co');
 
 const VALIDATE_SCHEMA = {
