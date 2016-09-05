@@ -29,12 +29,17 @@ let seeds = function(db) {
         }, {
             name: 'user.edit',
             roleId: 1
-        },
-        {
+        }, {
+            name: 'role.edit',
+            roleId: 1
+        }, {
+            name: 'role.view',
+            roleId: 1
+        }, {
             name: 'user.view',
             roleId: 2
         }];
-        return db.permission.bulkCreate(permissions);       
+        return db.permission.bulkCreate(permissions);
     };
 
     let _seedUser = function() {
