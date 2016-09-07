@@ -7,6 +7,7 @@ let seeds = function(db) {
         _seedRole();
         _seedPermission();
         _seedUser();
+        _seedNotification();
 
         logger.info('Database seed data insert successed.');
     };
@@ -53,6 +54,17 @@ let seeds = function(db) {
             });
         }
         return db.user.bulkCreate(users);
+    };
+
+    let _seedNotification = function() {
+        let notifications = [];
+        for (let i = 0; i < 5; i++) {
+            notifications.push({
+                userId: 1,
+                message: `测试消息${i}`
+            });
+        }
+        return db.notification.bulkCreate(notifications);
     };
 
     return {

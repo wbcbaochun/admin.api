@@ -93,8 +93,18 @@ models.sequelize.sync({
 
 // open listen
 const serverPort = configHelper.getConfig('serverPort');
-app.listen(serverPort, function() {
+let server = app.listen(serverPort, function() {
 	logger.info(`app listening on port ${serverPort}, env = %s`, process.env.NODE_ENV || 'development');
 });
+
+// socket
+let io = require('socket.io').listen(server);
+const notificationSocketHandle = require('modules/notification/helpers/socketHandle');
+io.on('connection', function(socket) {
+	console.log('connected');
+	notificationSocketHandle(socket);
+});
+
+
 
 module.exports = app;
