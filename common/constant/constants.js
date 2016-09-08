@@ -26,7 +26,9 @@ const constants = {
 	// JWS TOKEN 秘钥
 	JWS_TOKEN_KEY: 'admin',
 	// CODE LIST
-	CODE_LIST : codelist
+	CODE_LIST : codelist,
+	// 默认取得通知的轮询间隔
+	DEFUALT_POLLING_INTERVAL : 5000
 };
 
 

@@ -32,6 +32,6 @@ function addHandle(handle) {
 let socketHelper = {
 	listen,
 	addHandle
-}
+};
 
 module.exports = socketHelper;
