@@ -30,10 +30,9 @@ const configHelper = require('base/config/configHelper');
 // model and seeds
 const models = require('models');
 const seeds = require('seeds/seeds')(models);
-
 const logger = logHelper.getLogger(__filename);
-
 const appModules = require('modules');
+
 // setup helper
 tokenHelper.setup(constants.JWS_TOKEN_KEY, {
 	expiresIn: configHelper.getConfig('tokenExpiresIn')
@@ -84,11 +83,15 @@ const sequelizeHelper = require('common/database/sequelize/sequelizeHelper')(mod
 sequelizeHelper.addHooks();
 
 // sync db
+const isSyncForce = configHelper.getConfig('syncForce');
 models.sequelize.sync({
-	force: configHelper.getConfig('syncForce')
+	force: isSyncForce
 }).then(function() {
 	logger.info('Database sync successed.');
-	seeds.seedAll();
+	if (isSyncForce) {
+		logger.info('Database seed.');
+		seeds.seedAll();
+	}
 });
 
 // open listen
@@ -98,13 +101,7 @@ let server = app.listen(serverPort, function() {
 });
 
 // socket
-let io = require('socket.io').listen(server);
-const notificationSocketHandle = require('modules/notification/helpers/socketHandle');
-io.on('connection', function(socket) {
-	console.log('connected');
-	notificationSocketHandle(socket);
-});
-
-
+let socketHelper = require('base/socket/socketHelper');
+socketHelper.listen(server);
 
 module.exports = app;

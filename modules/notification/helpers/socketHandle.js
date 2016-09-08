@@ -3,6 +3,7 @@
 const _ = require('lodash');
 const logger = require('base/logger/loggerHelper').getLogger(__filename);
 const models = require('models');
+const socketHelper = require('base/socket/socketHelper');
 
 let users = {};
 
@@ -15,7 +16,6 @@ function socketHandle(socket) {
 
 	function _getNotifications() {
 		_.forEach(users, (socket, userId) => {
-			console.log(userId);
 			models.notification.count({
 				where: {
 					userId: userId,
@@ -31,5 +31,7 @@ function socketHandle(socket) {
 
 	socket.on('login', _login);
 }
+
+socketHelper.addHandle(socketHandle);
 
 module.exports = socketHandle;
