@@ -77,11 +77,6 @@ routeHelper.loadRoutes(app, appModules);
 // use error log
 app.use(errorHandle);
 
-// init db
-const sequelizeHelper = require('common/database/sequelize/sequelizeHelper')(models.sequelize);
-// add hook
-sequelizeHelper.addHooks();
-
 // sync db
 const isSyncForce = configHelper.getConfig('syncForce');
 models.sequelize.sync({

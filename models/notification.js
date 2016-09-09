@@ -9,19 +9,7 @@ module.exports = function(sequelize, DataTypes) {
         isRead: {
             type: DataTypes.BOOLEAN,
             defaultValue: false
-        },
-        createUserId: {
-            type: DataTypes.BIGINT(11),
-            allowNull: false,
-            defaultValue: '0'
-        },
-        updateUserId: {
-            type: DataTypes.BIGINT(11),
-            allowNull: false,
-            defaultValue: '0'
-        }        
-    }, {
-        paranoid: true
+        }
     });
     return notification;
 };
