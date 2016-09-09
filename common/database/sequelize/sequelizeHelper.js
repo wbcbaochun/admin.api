@@ -1,9 +1,10 @@
 'use strict';
 
 const constants = require('common/constant/constants');
-const Sequelize   = require('sequelize');
+const Sequelize = require('sequelize');
+const OptimisticLockError = require('base/error/OptimisticLockError');
 
-const DEFAULT_PARANOID = true;  // 默认为逻辑删除
+const DEFAULT_PARANOID = true; // 默认为逻辑删除
 
 let createOrUpdateUserId = {
     type: Sequelize.BIGINT(11),
@@ -45,6 +46,13 @@ let sequelizeHelper = function(sequelize) {
             return done();
         });
         sequelize.addHook('beforeBulkUpdate', function(model, done) {
+            // 乐观锁及版本更新
+            let version = model.attributes.version;
+            if (version) {
+                model.where.version = version;
+                model.attributes.version++;
+            }
+
             // 登录用户取得
             let currentUser = _getCurrentUser();
 
@@ -64,6 +72,17 @@ let sequelizeHelper = function(sequelize) {
             return done();
         });
         sequelize.addHook('beforeUpdate', function(model, options, done) {
+            // 乐观锁及版本更新
+            let version = model.dataValues.version;
+            if (typeof version !== 'undefined') {
+                let previousVersion = model._previousDataValues.version;
+                if (version !== previousVersion) {
+                    throw new OptimisticLockError();
+                }
+                model.dataValues.version++;
+                model._changed.version = true;
+            }
+
             // 登录用户取得
             let currentUser = _getCurrentUser();
             // 更新用户id
@@ -76,12 +95,14 @@ let sequelizeHelper = function(sequelize) {
             // 所有模型追加登录用户ID和更新用户ID
             attributes.createUserId = Object.assign({}, createOrUpdateUserId);
             attributes.updateUserId = Object.assign({}, createOrUpdateUserId);
-            
+            attributes.version = {
+                type: Sequelize.INTEGER(),
+                defaultValue: 0
+            };
             // 所有模型默认使用逻辑删除
             if (typeof options.paranoid === 'undefined') {
                 options.paranoid = DEFAULT_PARANOID;
             }
-
         });
     }
 

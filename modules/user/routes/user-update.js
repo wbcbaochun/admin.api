@@ -29,17 +29,9 @@ function controller(req) {
     let user = req.body;
 
     // 更新数据
-    return models.user.update(user, {
-    	where : {
-    		id : user.id
-    	}
-    }).then(function(count) {
-		if (count > 0) {
-    		return api.succeed('success.update');
-    	} else {
-    		return api.failed('error.data.notfound');
-    	}    	
-    });
+    return models.user.findById(user.id)
+        .then(dbUser => dbUser.update(user))
+        .then(() => api.succeed('success.update'));
 }
 
 let router = baseRouter('/user/update', controller);
