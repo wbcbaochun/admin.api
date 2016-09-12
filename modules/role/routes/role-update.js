@@ -51,7 +51,8 @@ function controller(req) {
         yield models.role.update(role, {
              where: {
                 id: role.id
-             }
+             },
+             optimisticLock: true
         });
 
         return api.succeed('success.update');

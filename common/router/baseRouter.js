@@ -6,6 +6,7 @@ const models = require('models');
 // const isPromise = require('is-promise');
 /* global -Promise */
 const Promise = require('bluebird');
+const api = require('common/api/api');
 
 function _getTrans(url, optTrans) {
 	let trans = false;
@@ -55,7 +56,14 @@ function BaseRouter(url, ctrl, opts = {}) {
 			
 		}
 		pCtrl.then(result => res.json(result))				
-			 .catch(next)
+			 .catch(err => {
+			 	// 乐观锁出错时抛出业务异常
+			 	if (err.name === 'OptimisticLockError') {
+			 		res.json(api.failed('error.optimisticLock'));
+			 	} else {
+			 		next();
+			 	}
+			 })
 			 .finally(() => logger.debug(`ctrl end : ${url}`))
 			 .done();	
 	}

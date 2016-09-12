@@ -36,6 +36,7 @@ const baseMessages = {
 	'error.query.nodata': '检索结果不存在',
 	'error.authCheck.token': '权限验证失败，您还未登录或登录超时',
 	'error.authCheck.permission': '权限验证失败，您没有该操作的权限',
+	'error.optimisticLock': '该数据已被其他人修改，请重新检索后再作尝试',
 	// -- global success --
 	'success.process': '处理成功',
 	'success.update': '更新成功',
