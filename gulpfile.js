@@ -7,7 +7,8 @@ let gulp = require('gulp'),
     fs = require('fs');
 
 let paths = {
-    script: ['./**/*.js', '!node_modules/**/*.js', '!gulpfile.js']
+    script: ['./**/*.js', '!node_modules/**/*.js', '!gulpfile.js'],
+    config: ['./config/*.json']
 };
 
 let production = (process.env.NODE_ENV === 'production');
@@ -30,7 +31,8 @@ gulp.task('jsHint', function() {
 
 // 启动监视
 gulp.task('watch', function() {
-    return watch(paths.script, function() {
+    let watchFileList = paths.config.concat(paths.script);
+    return watch(watchFileList, function() {
         gulp.start(['jsHint']);
     });
 });

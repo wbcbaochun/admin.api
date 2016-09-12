@@ -1,4 +1,6 @@
 {
 	"user\/(create|delete|update)": "user.edit",
-	"user\/.*": "user.view"
+	"user\/.*": "user.view",	
+	"role\/(create|delete|update)": "role.edit",
+	"role\/.*": "role.view"
 }
